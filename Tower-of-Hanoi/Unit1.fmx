@@ -1,0 +1,128 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object ButtonSet: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 16.000000000000000000
+    Size.Width = 73.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'Set'
+    OnClick = ButtonSetClick
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 1
+    Position.X = 144.000000000000000000
+    Position.Y = 16.000000000000000000
+    OnTyping = Edit1Typing
+  end
+  object ButtonMove: TButton
+    Position.X = 248.000000000000000000
+    Position.Y = 16.000000000000000000
+    TabOrder = 3
+    Text = 'Move'
+    OnClick = ButtonMoveClick
+  end
+  object ButtonSpeedUp: TSpeedButton
+    Position.X = 464.000000000000000000
+    RepeatClick = True
+    Size.Width = 33.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'arrowuptoolbuttonbordered'
+    Text = 'ButtonSpeedUp'
+    OnClick = ButtonSpeedUpClick
+  end
+  object LabelSpeed: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 424.000000000000000000
+    Position.Y = 12.000000000000000000
+    Size.Width = 41.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    Text = '1'
+  end
+  object ButtonSpeedDown: TSpeedButton
+    Position.X = 464.000000000000000000
+    Position.Y = 24.000000000000000000
+    RepeatClick = True
+    Size.Width = 33.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'arrowdowntoolbuttonbordered'
+    Text = 'ButtonSpeedUp'
+    OnClick = ButtonSpeedDownClick
+  end
+  object Label1: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 352.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 65.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    Text = 'Speed:'
+  end
+  object Label2: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 88.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 57.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 20.000000000000000000
+    Text = 'Disks:'
+  end
+  object RectAnimation1: TRectAnimation
+    Duration = 0.200000002980232200
+  end
+  object Label3: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 144.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 97.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 15.000000000000000000
+    Text = 'Moves count:'
+  end
+  object LabelCountMoves: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 240.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 89.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 15.000000000000000000
+  end
+  object Label4: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 328.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 81.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 15.000000000000000000
+    Text = 'Moves left:'
+  end
+  object LabelLeftMoves: TLabel
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 408.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 89.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 15.000000000000000000
+  end
+end

@@ -1,0 +1,179 @@
+Option Explicit
+'Main Function
+Function SpellNumber(ByVal MyNumber)
+    Dim Dollars, Cents, Temp
+    Dim DecimalPlace, Count
+    Dim PrevHundreds, Suffix
+    ReDim Place(9) As String
+    Place(2) = " Õèëÿäè "
+    Place(3) = " Ìèëèîíà "
+    Place(4) = " Ìèëèàðäà "
+    Place(5) = " Òðèëèîíà "
+    ' String representation of amount.
+    MyNumber = Trim(Str(MyNumber))
+    ' Position of decimal place 0 if none.
+    DecimalPlace = InStr(MyNumber, ".")
+    ' Convert cents and set MyNumber to dollar amount.
+    If DecimalPlace > 0 Then
+         Cents = GetTens(Left(Mid(MyNumber, DecimalPlace + 1) & _
+                  "00", 2), 1)
+         MyNumber = Trim(Left(MyNumber, DecimalPlace - 1))
+    End If
+    Count = 1
+    PrevHundreds = 0
+    Do While MyNumber <> ""
+        Temp = GetHundreds(Right(MyNumber, 3))
+        
+        If Count > 1 And Temp = "Åäèí" Then
+            If Dollars = "" Then
+                Suffix = ""
+            Else
+                If InStr(1, Dollars, " è ", vbTextCompare) = 0 Then
+                    Suffix = " è " & Dollars
+                Else
+                    Suffix = " " & Dollars
+                End If
+            End If
+            
+            Select Case Count
+                Case 2: Dollars = "Õèëÿäà" & Suffix
+                Case 3: Dollars = "Åäèí Ìèëèîí" & Suffix
+                Case 3: Dollars = "Åäèí Ìèëèàðä" & Suffix
+                Case 3: Dollars = "Åäèí Òðèëèîí" & Suffix
+            End Select
+        Else
+            If Temp <> "" Then Dollars = Temp & Place(Count) & Dollars
+        End If
+        
+        If Len(MyNumber) > 3 Then
+            MyNumber = Left(MyNumber, Len(MyNumber) - 3)
+        Else
+            MyNumber = ""
+        End If
+        Count = Count + 1
+        PrevHundreds = Temp
+    Loop
+    Select Case Dollars
+        Case ""
+            Dollars = "Íóëà Ëåâà"
+        Case "Åäèí"
+            Dollars = "Åäèí Ëåâ"
+         Case Else
+            Dollars = Dollars & " Ëåâà"
+    End Select
+    Select Case Cents
+        Case ""
+            Cents = " è Íóëà Ñòîòèíêè"
+        Case "Åäíà"
+            Cents = " è Åäíà Ñòîòèíêà"
+              Case Else
+            Cents = " è " & Cents & " Ñòîòèíêè"
+    End Select
+    SpellNumber = Dollars & Cents
+End Function
+      
+' Converts a number from 100-999 into text
+Function GetHundreds(ByVal MyNumber)
+    Dim Result As String
+    Dim Suffix
+    
+    If Val(MyNumber) = 0 Then Exit Function
+    MyNumber = Right("000" & MyNumber, 3)
+    ' Convert the tens and ones place.
+    If Mid(MyNumber, 2, 1) <> "0" Then
+        Result = GetTens(Mid(MyNumber, 2), 0)
+    Else
+        If Mid(MyNumber, 3, 1) <> "0" Then
+            If Mid(MyNumber, 1, 1) <> "0" Then
+                Result = Result & " è " & GetDigit(Mid(MyNumber, 3), 1)
+            Else
+                Result = GetTens(Mid(MyNumber, 2), 0)
+            End If
+        End If
+    End If
+    
+    If Result <> "" Then
+        If InStr(1, Result, " è ", vbTextCompare) = 0 Then
+            Suffix = " è " & Result
+        Else
+            Suffix = " " & Result
+        End If
+    End If
+    
+    ' Convert the hundreds place.
+    If Mid(MyNumber, 1, 1) <> "0" Then
+        Select Case Mid(MyNumber, 1, 1)
+            Case 1: Result = "Ñòî" & Suffix
+            Case 2: Result = "Äâåñòà" & Suffix
+            Case 3: Result = "Òðèñòà" & Suffix
+            Case 4: Result = "×åòèðèñòîòèí" & Suffix
+            Case 5: Result = "Ïåòñòîòèí" & Suffix
+            Case 6: Result = "Øåñòñòîòèí" & Suffix
+            Case 7: Result = "Ñåäåìñòîòèí" & Suffix
+            Case 8: Result = "Îñåìñòîòèí" & Suffix
+            Case 9: Result = "Äåâåòñòîòèí" & Suffix
+        End Select
+    End If
+    
+    GetHundreds = Result
+End Function
+      
+' Converts a number from 10 to 99 into text.
+Function GetTens(TensText, IsCent)
+    Dim Result As String
+    Dim Digit
+    Result = ""           ' Null out the temporary function value.
+    If Val(Left(TensText, 1)) = 1 Then   ' If value between 10-19...
+        Select Case Val(TensText)
+            Case 10: Result = "Äåñåò"
+            Case 11: Result = "Åäèíàäåñåò"
+            Case 12: Result = "Äâàíàäåñåò"
+            Case 13: Result = "Òðèíàäåñåò"
+            Case 14: Result = "×åòèðèíàäåñåò"
+            Case 15: Result = "Ïåòíàäåñåò"
+            Case 16: Result = "Øåñòíàäåñåò"
+            Case 17: Result = "Ñåäåìíàäåñåò"
+            Case 18: Result = "Îñåìíàäåñåò"
+            Case 19: Result = "Äåâåòíàäåñåò"
+            Case Else
+        End Select
+    Else                                 ' If value between 20-99...
+        Select Case Val(Left(TensText, 1))
+            Case 2: Result = "Äâàäåñåò"
+            Case 3: Result = "Òðèäåñåò"
+            Case 4: Result = "×åòèðèäåñåò"
+            Case 5: Result = "Ïåòäåñåò"
+            Case 6: Result = "Øåñòäåñåò"
+            Case 7: Result = "Ñåäåìäåñåò"
+            Case 8: Result = "Îñåìäåñåò"
+            Case 9: Result = "Äåâåòäåñåò"
+            Case Else
+        End Select
+        Digit = GetDigit(Right(TensText, 1), IsCent)
+        If Digit <> "" Then
+            If Result <> "" Then
+                Result = Result & " è " & Digit
+            Else
+                Result = Digit
+            End If
+        End If
+    End If
+    GetTens = Result
+End Function
+     
+' Converts a number from 1 to 9 into text.
+Function GetDigit(Digit, Chislo)
+    Select Case Val(Digit)
+        Case 1: If Val(Chislo) = 0 Then GetDigit = "Åäèí" Else GetDigit = "Åäíà"
+        Case 2: If Val(Chislo) = 0 Then GetDigit = "Äâà" Else GetDigit = "Äâå"
+        Case 3: GetDigit = "Òðè"
+        Case 4: GetDigit = "×åòèðè"
+        Case 5: GetDigit = "Ïåò"
+        Case 6: GetDigit = "Øåñò"
+        Case 7: GetDigit = "Ñåäåì"
+        Case 8: GetDigit = "Îñåì"
+        Case 9: GetDigit = "Äåâåò"
+        Case Else: GetDigit = ""
+    End Select
+End Function
+
